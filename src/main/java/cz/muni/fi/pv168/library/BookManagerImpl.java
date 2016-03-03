@@ -7,7 +7,7 @@ import java.util.List;
  * @version 03.03.2016
  */
 public class BookManagerImpl implements BookManager {
-    
+
     public void createBook(Book book) {
 
     }

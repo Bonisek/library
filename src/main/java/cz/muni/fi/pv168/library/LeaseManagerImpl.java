@@ -28,7 +28,7 @@ public class LeaseManagerImpl implements LeaseManager {
         return null;
     }
 
-    public List<Lease> findLeasesByCust(Customer customer) {
+    public List<Lease> findLeasesByCustomer(Customer customer) {
         return null;
     }
 }

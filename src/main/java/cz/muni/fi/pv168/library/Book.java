@@ -11,8 +11,6 @@ public class Book {
     private String author;
     private String genre;
 
-    private  int i;
-
     public Long getId() {
         return id;
     }

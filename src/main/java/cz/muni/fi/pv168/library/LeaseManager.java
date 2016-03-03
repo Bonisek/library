@@ -18,5 +18,5 @@ public interface LeaseManager {
 
     List<Lease> findAllLeases();
 
-    List<Lease> findLeasesByCust(Customer customer);
+    List<Lease> findLeasesByCustomer(Customer customer);
 }
