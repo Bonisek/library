@@ -133,6 +133,11 @@ public class BookManagerImplTest {
 
         Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
         Book book1 = newBook("Confessions of a Shopaholic", "Jane Austen", "comedy");
+        Book book2 = newBook("Best Recipes", "Rick Rubin", "food");
+
+        bookManager.createBook(book);
+        bookManager.createBook(book1);
+        bookManager.createBook(book2);
 
         List<Book> result = bookManager.findBooksByAuthor("Jane Austen");
 
@@ -160,6 +165,11 @@ public class BookManagerImplTest {
 
         Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
         Book book1 = newBook("Confessions of a Shopaholic", "Sophie Kinsella", "romance");
+        Book book2 = newBook("Best Recipes", "Rick Rubin", "food");
+
+        bookManager.createBook(book);
+        bookManager.createBook(book1);
+        bookManager.createBook(book2);
 
         List<Book> result = bookManager.findBooksByGenre("romance");
 
@@ -186,6 +196,11 @@ public class BookManagerImplTest {
 
         Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
         Book book1 = newBook("Pride and Prejudice", "Sophie Kinsella", "sci-fi");
+        Book book2 = newBook("Best Recipes", "Rick Rubin", "food");
+
+        bookManager.createBook(book);
+        bookManager.createBook(book1);
+        bookManager.createBook(book2);
 
         List<Book> result = bookManager.findBooksByName("Pride and Prejudice");
 
