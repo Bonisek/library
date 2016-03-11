@@ -81,7 +81,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void updateBookWithWrongAttributes() {
+    public void testUpdateBookWithNull() {
 
        bookManager.updateBook(null);
     }
@@ -104,7 +104,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void deleteBookWithWrongAttributes() {
+    public void testDeleteBookWithNull() {
 
         bookManager.deleteBook(null);
     }
@@ -123,7 +123,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void findBookByNullId() {
+    public void testFindBookByNullId() {
 
         bookManager.findBookById(null);
     }
@@ -154,7 +154,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void findBooksByNullAuthor() {
+    public void testFindBooksByNullAuthor() {
 
         bookManager.findBooksByAuthor(null);
     }
@@ -186,7 +186,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void findBooksByNullGenre() {
+    public void testFindBooksByNullGenre() {
 
         bookManager.findBooksByGenre(null);
     }
@@ -217,7 +217,7 @@ public class BookManagerImplTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void findBooksByNullName() {
+    public void testFindBooksByNullName() {
 
         bookManager.findBooksByName(null);
     }
