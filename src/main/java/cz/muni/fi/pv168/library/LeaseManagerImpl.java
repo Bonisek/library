@@ -20,6 +20,11 @@ public class LeaseManagerImpl implements LeaseManager {
 
     }
 
+    @Override
+    public List<Lease> findLease(Book book, Customer customer) {
+        return null;
+    }
+
     public List<Lease> findLeasesByBook(Book book) {
         return null;
     }
