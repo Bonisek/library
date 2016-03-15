@@ -21,7 +21,7 @@ public class LeaseManagerImpl implements LeaseManager {
     }
 
     @Override
-    public List<Lease> findLease(Book book, Customer customer) {
+    public List<Lease> findLeaseById(Long id) {
         return null;
     }
 

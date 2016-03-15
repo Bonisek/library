@@ -14,8 +14,7 @@ public interface LeaseManager {
 
     void deleteLease(Lease lease);
 
-    List<Lease> findLease(Book book, Customer customer);
-
+    public List<Lease> findLeaseById(Long id);
 
     List<Lease> findLeasesByBook(Book book);
 
