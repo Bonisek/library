@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface CustomerManager {
 
-    void createCustomer(Customer customer);
+    void createCustomer(Customer customer) throws ServiceFailureException;
 
     void updateCustomer(Customer customer);
 

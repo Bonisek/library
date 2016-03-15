@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class BookManagerImplTest {
 
-    BookManager bookManager;
+    private BookManager bookManager;
 
     @Before
     public void setUp() throws Exception {
