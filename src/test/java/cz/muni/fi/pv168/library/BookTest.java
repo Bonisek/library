@@ -61,5 +61,25 @@ public class BookTest {
         book.setGenre(null);
     }
 
+    @Test
+    public void testEquals() throws Exception {
+        Book book = new Book();
+        book.setName("pride and prejudice");
+        book.setAuthor("Jane austen");
+        book.setGenre("romance");
+
+        Book book1 = new Book();
+        book1.setName("pride and prejudice");
+        book1.setAuthor("Jane austen");
+        book1.setGenre("romance");
+
+        assertTrue(book.equals(book));
+        assertFalse(book.equals(book1));
+        assertFalse(book.equals(null));
+
+        book1.setId(book.getId());
+        assertTrue(book.equals(book1));
+    }
+
 
 }
