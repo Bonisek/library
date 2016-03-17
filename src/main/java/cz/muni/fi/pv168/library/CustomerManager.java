@@ -10,11 +10,13 @@ public interface CustomerManager {
 
     void createCustomer(Customer customer) throws ServiceFailureException;
 
-    void updateCustomer(Customer customer);
+    void updateCustomer(Customer customer) throws ServiceFailureException;
 
-    void deleteCustomer(Customer customer);
+    void deleteCustomer(Customer customer) throws ServiceFailureException;
 
-    Customer findCustomerById(Long id);
+    Customer findCustomerById(Long id) throws ServiceFailureException;
 
-    List<Customer> findCustomersByName(String name);
+    List<Customer> findCustomersByName(String name) throws ServiceFailureException;
+
+    List<Customer> findAllCustomers() throws ServiceFailureException;
 }
