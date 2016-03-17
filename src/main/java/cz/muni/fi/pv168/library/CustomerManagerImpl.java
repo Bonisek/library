@@ -1,20 +1,15 @@
 package cz.muni.fi.pv168.library;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
 
 /**
  * @author Lenka (433591)
  * @version 03.03.2016
  */
 public class CustomerManagerImpl implements CustomerManager {
-
-    final static Logger log = LoggerFactory.getLogger(CustomerManagerImpl.class);
 
     private final DataSource dataSource;
 
@@ -46,7 +41,6 @@ public class CustomerManagerImpl implements CustomerManager {
                 customer.setId(getKey(keyRS, customer));
             }
         } catch (SQLException ex) {
-            log.error("db connection problem", ex);
             throw new ServiceFailureException("Error when inserting a customer", ex);
         }
 
