@@ -1,5 +1,6 @@
 .idea
 *.class
+target
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -48,3 +49,4 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+target/classes/createTables.sql
