@@ -26,12 +26,12 @@ public class LeaseTest {
      */
     @Test
     public void testGetBook() {
-        Book b = new Book();
-        b.setId(1L);
-        lease.setBook(b);
+        Book book = new Book();
+        book.setId(1L);
+        lease.setBook(book);
 
-        assertNotNull("huehue", lease.getBook());
-        assertEquals("ayyy", lease.getBook(), b);
+        assertNotNull(lease.getBook());
+        assertEquals(lease.getBook(), book);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,11 +44,12 @@ public class LeaseTest {
      */
     @Test
     public void testGetCustomer() {
-        Customer c = new Customer();
-        c.setId(1L);
+        Customer customer = new Customer();
+        customer.setId(1L);
+        lease.setCustomer(customer);
 
-        assertNotNull("huehue", lease.getCustomer());
-        assertEquals("ayyy", lease.getCustomer(), c);
+        assertNotNull(lease.getCustomer());
+        assertEquals(lease.getCustomer(), customer);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -63,10 +64,11 @@ public class LeaseTest {
             Date date = sdf.parse("2009-12-31");
             lease.setStartTime(date);
 
-            assertNotNull("huehue", lease.getStartTime());
-            assertEquals("ayyy", lease.getStartTime(), date);
-        }catch(ParseException ex){
-            //
+            assertNotNull(lease.getStartTime());
+            assertEquals(lease.getStartTime(), date);
+        }
+        catch(ParseException ex){
+            ex.printStackTrace();
         }
     }
 
@@ -82,10 +84,11 @@ public class LeaseTest {
             Date date = sdf.parse("2009-12-31");
             lease.setEndTime(date);
 
-            assertNotNull("huehue", lease.getEndTime());
-            assertEquals("ayyy", lease.getEndTime(), date);
-        }catch(ParseException ex){
-            //
+            assertNotNull(lease.getEndTime());
+            assertEquals(lease.getEndTime(), date);
+        }
+        catch(ParseException ex){
+            ex.printStackTrace();
         }
     }
 
@@ -94,10 +97,10 @@ public class LeaseTest {
         lease.setEndTime(null);
     }
 
-    private static final Comparator<Customer> idComparator = new Comparator<Customer>() {
-        @Override
-        public int compare(Customer o1, Customer o2) {
-            return o1.getId().compareTo(o2.getId());
-        }
-    };
+//    private static final Comparator<Customer> idComparator = new Comparator<Customer>() {
+//        @Override
+//        public int compare(Customer o1, Customer o2) {
+//            return o1.getId().compareTo(o2.getId());
+//        }
+//    };
 }

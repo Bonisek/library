@@ -50,3 +50,5 @@ Temporary Items
 .apdisk
 
 target/classes/createTables.sql
+*.class
+*.class
