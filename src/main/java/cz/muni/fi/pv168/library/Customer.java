@@ -12,6 +12,10 @@ public class Customer {
     private String phoneNumber;
     private String address;
 
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -32,10 +36,6 @@ public class Customer {
         this.address = address;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -50,5 +50,29 @@ public class Customer {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        return id != null && id.equals(customer.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer: " +
+                "id=" + id +
+                ", "+ name +
+                " " + surname;
     }
 }
