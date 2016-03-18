@@ -1,6 +1,6 @@
 .idea
 *.class
-target
+target/*
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -50,5 +50,4 @@ Temporary Items
 .apdisk
 
 target/classes/createTables.sql
-*.class
-*.class
+
