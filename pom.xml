@@ -36,6 +36,12 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.5.6</version>
         </dependency>
+        <dependency>
+            <groupId>org.sonatype.forge</groupId>
+            <artifactId>forge-parent</artifactId>
+            <version>10</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 
