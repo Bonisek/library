@@ -1,8 +1,14 @@
 package cz.muni.fi.pv168.library;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -15,10 +21,30 @@ import static org.junit.Assert.*;
 public class BookManagerImplTest {
 
     private BookManager bookManager;
+    private DataSource dataSource;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        bookManager = new BookManagerImpl();
+
+        //dataSource = prepareDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE BOOK ("
+                    + "id bigint primary key generated always as identity,"
+                    + "bookname VARCHAR(30) ,"
+                    + "author VARCHAR(40) ,"
+                    + "genre VARCHAR(20))").executeUpdate();
+        }
+        bookManager = new BookManagerImpl(dataSource);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE BOOK").executeUpdate();
+        }
     }
 
     @Test
@@ -64,8 +90,8 @@ public class BookManagerImplTest {
         book = bookManager.findBookById(bookID);
 
         assertNotNull(book);
-        assertThat("genre value was changed when changing genre", book.getGenre(), is(equalTo("sci-fi")));
-        assertThat("name value was changed when changing genre", book.getName(), is(equalTo("Pride and Prejudice")));
+        assertThat("genre value was changed when changing author", book.getGenre(), is(equalTo("sci-fi")));
+        assertThat("name value was changed when changing author", book.getName(), is(equalTo("Pride and Prejudice")));
         assertThat("author value wasn't changed correctly", book.getAuthor(), is(equalTo("J. K. Rowling")));
 
         book.setName("Harry Potter");
@@ -73,9 +99,9 @@ public class BookManagerImplTest {
         book = bookManager.findBookById(bookID);
 
         assertNotNull(book);
-        assertThat("genre value was changed when changing genre", book.getGenre(), is(equalTo("sci-fi")));
+        assertThat("genre value was changed when changing name", book.getGenre(), is(equalTo("sci-fi")));
         assertThat("name value wasn't changed correctly", book.getName(), is(equalTo("Harry Potter")));
-        assertThat("author value was changed when changing genre", book.getAuthor(), is(equalTo("J. K. Rowling")));
+        assertThat("author value was changed when changing name", book.getAuthor(), is(equalTo("J. K. Rowling")));
 
         assertDeepEquals(book1, bookManager.findBookById(book1.getId()));
     }
@@ -84,6 +110,15 @@ public class BookManagerImplTest {
     public void testUpdateBookWithNull() {
 
        bookManager.updateBook(null);
+    }
+
+    @Test
+    public void testUpdateBookWithNonexistingId() throws Exception {
+        Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
+        bookManager.createBook(book);
+        book.setId(book.getId() + 1);
+        expectedException.expect(EntityNotFoundException.class);
+        bookManager.updateBook(book);
     }
 
     @Test
@@ -110,6 +145,15 @@ public class BookManagerImplTest {
     }
 
     @Test
+    public void testDeleteBookWithNonexistingId() throws Exception {
+        Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
+        bookManager.createBook(book);
+        book.setId(book.getId() + 1);
+        expectedException.expect(EntityNotFoundException.class);
+        bookManager.deleteBook(book);
+    }
+
+    @Test
     public void testFindBookById() throws Exception {
 
         Book book = newBook("Pride and Prejudice", "Jane Austen", "romance");
@@ -127,6 +171,7 @@ public class BookManagerImplTest {
 
         bookManager.findBookById(null);
     }
+
 
     @Test
     public void testFindBooksByAuthor() throws Exception {
@@ -158,7 +203,6 @@ public class BookManagerImplTest {
 
         bookManager.findBooksByAuthor(null);
     }
-
 
     @Test
     public void testFindBooksByGenre() throws Exception {
@@ -236,4 +280,12 @@ public class BookManagerImplTest {
         assertEquals("genre value is not equal",expected.getGenre(), actual.getGenre());
         assertEquals("name value is not equal",expected.getName(), actual.getName());
     }
+
+    //private static DataSource prepareDataSource() throws SQLException {
+//        EmbeddedDataSource ds = new EmbeddedDataSource();
+//        //we will use in memory database
+//        ds.setDatabaseName("memory:bookmgr-test");
+//        ds.setCreateDatabase("create");
+//        return ds;
+//    }
 }

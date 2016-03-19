@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168.library;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -7,6 +8,12 @@ import java.util.List;
  * @version 03.03.2016
  */
 public class LeaseManagerImpl implements LeaseManager {
+
+    private DataSource dataSource;
+
+    public LeaseManagerImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public void createLease(Lease lease) {
 

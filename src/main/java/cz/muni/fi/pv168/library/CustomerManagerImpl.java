@@ -26,7 +26,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
         try (Connection conn = dataSource.getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO CUSTOMER (customerName,surname,phoneNumber,address)" +
-                    " VALUES (?,?,?,?)",
+                            " VALUES (?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS)) {
 
                 st.setString(1, customer.getName());
@@ -131,8 +131,8 @@ public class CustomerManagerImpl implements CustomerManager {
             throw new ServiceFailureException(
                     "Error when retrieving customer with id " + id, ex);
         }
-        
-       
+
+
     }
 
     public List<Customer> findCustomersByName(String name) throws ServiceFailureException {
@@ -145,7 +145,7 @@ public class CustomerManagerImpl implements CustomerManager {
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
                         "SELECT id, customerName, surname, phoneNumber, address FROM customer WHERE name = ?");
-                ) {
+        ) {
 
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
@@ -220,5 +220,5 @@ public class CustomerManagerImpl implements CustomerManager {
                     + " - no key found");
         }
     }
-    
+
 }

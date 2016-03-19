@@ -1,11 +1,20 @@
 package cz.muni.fi.pv168.library;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import javax.sql.DataSource;
+
 import static org.junit.Assert.*;
 
 /**
@@ -15,10 +24,31 @@ import static org.junit.Assert.*;
 public class LeaseManagerImplTest {
 
     private LeaseManager leaseManager;
+    private DataSource dataSource;
+    
+    @Rule
+    ExpectedException expectedException = ExpectedException.none();
+    
 
     @Before
-    public void setUp() {
-        leaseManager = new LeaseManagerImpl();
+    public void setUp() throws Exception {
+        //TODO references
+        //dataSource = prepareDataSource();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("CREATE TABLE LEASE ("
+                    + "id bigint primary key generated always as identity,"
+                    + "bookId REFERENCES ,"
+                    + "author VARCHAR(40) ,"
+                    + "genre VARCHAR(20))").executeUpdate();
+        }
+        leaseManager = new LeaseManagerImpl(dataSource);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.prepareStatement("DROP TABLE LEASE").executeUpdate();
+        }
     }
 
     /**
@@ -114,6 +144,27 @@ public class LeaseManagerImplTest {
         leaseManager.updateLease(null);
     }
 
+    @Test
+    public void testUpdateLeaseWithNonexistingId() throws Exception {
+        Customer customer = new Customer();
+        Book book = new Book();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date start = sdf.parse("2009-12-31");
+            Date end = sdf1.parse("2010-12-31");
+            Lease lease = newLease(book, customer, start, end);
+            leaseManager.createLease(lease);
+            lease.setId(lease.getId() + 1);
+            expectedException.expect(EntityNotFoundException.class);
+            leaseManager.updateLease(lease);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Test of deleteLease method, of class LeaseManagerImpl.
      */
@@ -158,6 +209,26 @@ public class LeaseManagerImplTest {
     @Test (expected = IllegalArgumentException.class)
     public void testDeleteLeaseWithNull() {
         leaseManager.deleteLease(null);
+    }
+
+    public void testDeleteLeaseWithNonexistingId() throws Exception {
+        Customer customer = new Customer();
+        Book book = new Book();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date start = sdf.parse("2009-12-31");
+            Date end = sdf1.parse("2010-12-31");
+            Lease lease = newLease(book, customer, start, end);
+            leaseManager.createLease(lease);
+            lease.setId(lease.getId() + 1);
+            expectedException.expect(EntityNotFoundException.class);
+            leaseManager.deleteLease(lease);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -317,4 +388,12 @@ public class LeaseManagerImplTest {
 
         return lease;
     }
+
+    //private static DataSource prepareDataSource() throws SQLException {
+//        EmbeddedDataSource ds = new EmbeddedDataSource();
+//        //we will use in memory database
+//        ds.setDatabaseName("memory:gravemgr-test");
+//        ds.setCreateDatabase("create");
+//        return ds;
+//    }
 }
