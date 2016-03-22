@@ -56,30 +56,28 @@ public class LeaseManagerImplTest {
      */
     @Test
     public void testCreateLease() {
-        Customer customer = new Customer();
-        Book book = new Book();
+        Customer c = new Customer();
+        Book b = new Book();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
         try{
             Date start = sdf.parse("2009-12-31");
             Date end = sdf1.parse("2010-12-31");
-            Lease lease = newLease(book, customer, start, end);
-            leaseManager.createLease(lease);
+            Lease l = newLease(b, c, start, end);
+            leaseManager.createLease(l);
 
-            assertNotNull(lease.getId());
+            assertNotNull(l.getId());
 
-            Lease lease1 = leaseManager.findLeaseById(lease.getId());
-            assertNotNull("id is null", lease1.getId());
-            assertNotNull("returned book is null", lease1.getBook());
-            assertNotNull("returned customer is null", lease1.getCustomer());
-            assertNotNull("returned end time is null", lease1.getEndTime());
-            assertNotNull("returned start time is null", lease1.getStartTime());
+            assertNotNull(leaseManager.findLeaseById(l.getId()).getBook());
+            assertNotNull(leaseManager.findLeaseById(l.getId()).getCustomer());
+            assertNotNull(leaseManager.findLeaseById(l.getId()).getEndTime());
+            assertNotNull(leaseManager.findLeaseById(l.getId()).getStartTime());
 
-            assertEquals(lease1.getBook(), book);
-            assertEquals(lease1.getCustomer(), customer);
-            assertEquals(lease1.getEndTime(), end);
-            assertEquals(lease1.getStartTime(), start);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getBook().getId(), b.getId());
+            assertEquals(leaseManager.findLeaseById(l.getId()).getCustomer().getId(), c.getId());
+            assertEquals(leaseManager.findLeaseById(l.getId()).getEndTime(), end);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getStartTime(), start);
 
         }catch(ParseException ex){
             ex.printStackTrace();
@@ -96,43 +94,61 @@ public class LeaseManagerImplTest {
      */
     @Test
     public void testUpdateLease() {
-        Customer customer = new Customer();
-        customer.setName("Lenka");
-        Book book = new Book();
-        book.setName("Food");
+        Customer c = new Customer();
+        Customer c2 = new Customer();
+        Book b = new Book();
+        Book b2 = new Book();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
         try{
             Date start = sdf.parse("2009-12-31");
-            Date end = sdf1.parse("2010-12-31");
-            Lease lease = newLease(book, customer, start, end);
-            leaseManager.createLease(lease);
+            Date end = sdf1.parse("2009-12-31");
+            Lease l = newLease(b, c, start, end);
 
-            book.setName("Universe");
-            customer.setAddress("Slovakia");
-            start = sdf.parse("2012-05-19");
-            end = sdf.parse("2012-06-20");
-            lease.setCustomer(customer);
-            lease.setBook(book);
-            lease.setEndTime(end);
-            lease.setStartTime(start);
-
-            leaseManager.updateLease(lease);
-
-            assertNotNull(lease.getId());
-
-            Lease lease1 = leaseManager.findLeaseById(lease.getId());
-            assertNotNull("id is null", lease1.getId());
-            assertNotNull("returned book is null", lease1.getBook());
-            assertNotNull("returned customer is null", lease1.getCustomer());
-            assertNotNull("returned end time is null", lease1.getEndTime());
-            assertNotNull("returned start time is null", lease1.getStartTime());
-
-            assertEquals(lease1.getBook(), book);
-            assertEquals(lease1.getCustomer(), customer);
-            assertEquals(lease1.getEndTime(), end);
-            assertEquals(lease1.getStartTime(), start);
+            leaseManager.createLease(l);
+            
+            l.setCustomer(c2);
+            
+            leaseManager.updateLease(l);
+            
+            assertNotNull(leaseManager.findLeaseById(l.getId()));
+            assertEquals(leaseManager.findLeaseById(l.getId()).getBook(), b);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getCustomer(), c2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getEndTime(), end);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getStartTime(), start);
+            
+            l.setBook(b2);
+            
+            leaseManager.updateLease(l);
+            
+            assertNotNull(leaseManager.findLeaseById(l.getId()));
+            assertEquals(leaseManager.findLeaseById(l.getId()).getBook(), b2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getCustomer(), c2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getEndTime(), end);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getStartTime(), start);
+            
+            start = sdf1.parse("2010-12-31");
+            l.setStartTime(start);
+            
+            leaseManager.updateLease(l);
+            
+            assertNotNull(leaseManager.findLeaseById(l.getId()));
+            assertEquals(leaseManager.findLeaseById(l.getId()).getBook(), b2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getCustomer(), c2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getEndTime(), end);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getStartTime(), start);
+            
+            end = sdf1.parse("2011-12-31");
+            l.setEndTime(end);
+            
+            leaseManager.updateLease(l);
+            
+            assertNotNull(leaseManager.findLeaseById(l.getId()));
+            assertEquals(leaseManager.findLeaseById(l.getId()).getBook(), b2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getCustomer(), c2);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getEndTime(), end);
+            assertEquals(leaseManager.findLeaseById(l.getId()).getStartTime(), start);
 
         }catch(ParseException ex){
             ex.printStackTrace();

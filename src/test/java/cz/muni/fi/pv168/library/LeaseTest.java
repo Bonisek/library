@@ -2,7 +2,6 @@ package cz.muni.fi.pv168.library;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
