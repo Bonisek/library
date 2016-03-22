@@ -55,7 +55,7 @@ public class CustomerManagerImpl implements CustomerManager {
         try (
                 Connection connection = dataSource.getConnection();
                 PreparedStatement st = connection.prepareStatement(
-                        "UPDATE Customer SET customerName = ?, surname = ?, capacity = ?, note = ? WHERE id = ?")) {
+                        "UPDATE Customer SET customerName = ?, surname = ?, phoneNumber = ?, address = ? WHERE id = ?")) {
 
             st.setString(1, customer.getName());
             st.setString(2, customer.getSurname());
